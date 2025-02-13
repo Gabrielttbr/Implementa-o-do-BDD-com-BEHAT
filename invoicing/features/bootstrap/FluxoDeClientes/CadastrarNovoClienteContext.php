@@ -2,12 +2,11 @@
 
 namespace FluxoDeClientes;
 
-
-use Behat\Behat\Context\Context;
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Step\Given;
 use Behat\Step\When;
 use Behat\Step\Then;
+use Behat\Behat\Context\Context;
 
 class CadastrarNovoClienteContext implements Context
 {

@@ -1,18 +1,24 @@
 default:
     suites:
-        default:
+        Diferimento:
+            paths:
+                - '%paths.base%/features/Diferimento'
             autoload:
                 'Diferimento': '%paths.base%/features/bootstrap/Diferimento'
             contexts:
-                - FeatureContext
+                - Diferimento\FeatureContext
                 - Diferimento\ObterDiferimentoContext
         Clients:
+            paths:
+                - '%paths.base%/features/FluxoDeClientes'
             autoload:
                 'FluxoDeClientes': '%paths.base%/features/bootstrap/FluxoDeClientes'
             contexts:
                 - FluxoDeClientes\CadastrarNovoClienteContext
         Invoice:
+            paths:
+                - '%paths.base%/features/FluxoDeFaturas'
             autoload:
                 'FluxoDeFaturas': '%paths.base%/features/bootstrap/FluxoDeFaturas'
             contexts:
-                - FluxoDeFaturas\CadastraNovaFaturaNoErpContext 
+                - FluxoDeFaturas\CadastraNovaFaturaNoErpContext

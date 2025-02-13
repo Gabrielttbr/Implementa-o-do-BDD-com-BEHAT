@@ -2,19 +2,18 @@
 
 namespace FluxoDeFaturas;
 
-use Behat\Behat\Context\Context;
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Step\Given;
 use Behat\Step\When;
 use Behat\Step\Then;
-
+use Behat\Behat\Context\Context;
 
 class CadastraNovaFaturaNoErpContext implements Context
 {
     #[Given('eu estou enviando uma nova fatura')]
     public function euEstouEnviandoUmaNovaFatura(): void
     {
-       echo "Teste";
+        echo "Teste";
     }
 
     #[When('eu enviar a fatura para o endpoint de cadastro')]

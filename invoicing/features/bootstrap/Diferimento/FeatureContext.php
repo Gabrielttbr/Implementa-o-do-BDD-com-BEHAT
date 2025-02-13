@@ -1,5 +1,7 @@
 <?php
 
+namespace Diferimento;
+
 use Behat\Behat\Context\Context;
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Gherkin\Node\PyStringNode;
@@ -8,7 +10,8 @@ use Behat\Step\When;
 use Behat\Step\Then;
 use Illuminate\Support\Facades\Date;
 use PHPUnit\Framework\Assert;
-
+use GuzzleHttp\Client;
+use Illuminate\Contracts\Console\Kernel;
 /**
  * Defines application features from the specific context.
  */
@@ -31,15 +34,15 @@ class FeatureContext implements Context
 
     private array $responseIntegrationApi;
 
-    private GuzzleHttp\Client $client;
+    private Client $client;
 
     public function __construct()
     {
-        $this->client = new GuzzleHttp\Client();
+        $this->client = new client();
 
         // Inicialize a aplicação Laravel
-        $app = require __DIR__.'/../../bootstrap/app.php';
-        $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+        $app = require __DIR__.'/../../../bootstrap/app.php';
+        $app->make(kernel::class)->bootstrap();
     }
 
     #[Given('eu estou enviando um contrato com valor :arg1 reais para diferir')]
