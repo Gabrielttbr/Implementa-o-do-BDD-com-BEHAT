@@ -9,7 +9,6 @@ class DeferralController extends Controller
 {
     public function store(Request $request)
     {
-       ;
         try {
             $params = $request->validate([
                 'contract_id' => 'required|integer',
@@ -17,7 +16,7 @@ class DeferralController extends Controller
                 'period_end' => 'required|date',
                 "value" => 'required|numeric|min:1',
             ]);
-
+     
             $start = Date::createFromDate($params['period_start']);
             $end = Date::createFromDate($params['period_end']);
             

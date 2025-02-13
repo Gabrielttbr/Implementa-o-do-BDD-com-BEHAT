@@ -57,7 +57,7 @@ class FeatureContext implements Context
         $this->contractToSend['period_start'] =  Date::now()->format('Y-m-d');
         $this->contractToSend['period_end'] = Date::now()->addMonths((int)$arg1 - 1)->format('Y-m-d');
     }
-
+    
     #[When('eu enviar o contrato para o endpoint de diferir')]
     public function euEnviarOContratoParaOEndpointDeDiferir(): void
     {
