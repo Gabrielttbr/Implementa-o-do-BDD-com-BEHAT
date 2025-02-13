@@ -15,7 +15,7 @@ class DeferralController extends Controller
                 'contract_id' => 'required|integer',
                 'period_start' => 'required|date',
                 'period_end' => 'required|date',
-                "value" => 'required|numeric',
+                "value" => 'required|numeric|min:1',
             ]);
 
             $start = Date::createFromDate($params['period_start']);
@@ -41,7 +41,17 @@ class DeferralController extends Controller
             
             return response()->json($deferral, 201);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], $e->getCode());
+            return response()->json(['error' => $e->getMessage()],  400);
         }
+    }
+
+    public function show(Request $request)
+    {
+        return response()->json([
+            'contract_id' => (int)$request->id,
+            'installement' => 1,
+            'billing_date' => Date::now()->format('Y-m-d'),
+            'value' => 100
+        ]);
     }
 }

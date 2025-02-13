@@ -1,6 +1,7 @@
 <?php
 
 use Behat\Behat\Context\Context;
+use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Step\Given;
 use Behat\Step\When;
@@ -57,16 +58,19 @@ class FeatureContext implements Context
     #[When('eu enviar o contrato para o endpoint de diferir')]
     public function euEnviarOContratoParaOEndpointDeDiferir(): void
     {
-        $response = $this->client->post('localhost/api/deferrals', [
-            'json' => [
-                'contract_id' => $this->contractToSend['contract_id'],
-                'period_start' => $this->contractToSend['period_start'],
-                'period_end' => $this->contractToSend['period_end'],
-                'value' => $this->contractToSend['value']
-            ]
-        ]);
-    
-        $this->responseIntegrationApi = json_decode($response->getBody()->getContents(), true);
+        try {
+            $this->responseIntegrationApi = json_decode($this->client->post('localhost/api/deferrals', [
+                'json' => [
+                    'contract_id' => $this->contractToSend['contract_id'],
+                    'period_start' => $this->contractToSend['period_start'],
+                    'period_end' => $this->contractToSend['period_end'],
+                    'value' => $this->contractToSend['value']
+                ]
+            ])->getBody()->getContents(), true);
+        }catch (\Exception $e) {
+            $this->responseIntegrationApi = ["code" => $e->getCode()];
+        }
+
     }
 
     #[Then('ele deve retornar')]
@@ -74,10 +78,12 @@ class FeatureContext implements Context
     {
         $date = Date::now();
         $installmentValue = 1;
-
+        $mouth =  (Date::createFromDate($this->contractToSend['period_start'])->diffInMonths(Date::createFromDate($this->contractToSend['period_end'])));
+        $expectValue = $this->contractToSend['value'] / $mouth;
+        
         foreach ($this->responseIntegrationApi as $installment ) {
             Assert::assertEquals(1, $installment['contract_id'], "Erro: contract_id inválido.");
-            Assert::assertEquals(200, $installment['value'], "Erro: Valor inválido.");
+            Assert::assertEquals($expectValue, $installment['value'], "Erro: Valor inválido.");
             Assert::assertEquals($installmentValue, $installment['installement'], "Erro: Número da parcela inválido.");
             Assert::assertEquals($date->format('Y-m-d'), $installment['billing_date'], "Erro: Data de faturamento inválida.");
 
@@ -85,4 +91,11 @@ class FeatureContext implements Context
             $installmentValue++;
         }
     }
+
+    #[Then('ele deve retornar um erro, avisando que o campo valor e obrigatório')]
+    public function eleDeveRetornarUmErroAvisandoQueOCampoValorEObrigatorio(PyStringNode $string): void
+    {
+        Assert::assertEquals(400, $this->responseIntegrationApi['code']);
+    }
+
 }

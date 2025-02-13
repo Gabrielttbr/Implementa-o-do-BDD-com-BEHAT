@@ -1,0 +1,7 @@
+default:
+    suites:
+        default:
+            autoload:
+              '': '%paths.base%/app/features/bootstrap/Diferimento'
+            contexts:
+                - FeatureContext

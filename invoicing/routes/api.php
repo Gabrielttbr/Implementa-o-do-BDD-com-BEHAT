@@ -12,4 +12,6 @@ Route::get('/teste', function () {
     return 'teste';
 });
 
+Route::get('/deferrals/{id}', [DeferralController::class, 'show']);
+
 Route::post('/deferrals', [DeferralController::class, 'store']);
