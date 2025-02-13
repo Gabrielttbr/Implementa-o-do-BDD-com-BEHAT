@@ -32,7 +32,10 @@
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/"
+            "Database\\Seeders\\": "database/seeders/",
+            "Diferimento\\": "features/bootstrap/Diferimento/",
+            "FluxoDeClientes\\": "features/bootstrap/FluxoDeClientes/",
+            "FluxoDeFaturas\\": "features/bootstrap/FluxoDeFaturas/"
         }
     },
     "autoload-dev": {
